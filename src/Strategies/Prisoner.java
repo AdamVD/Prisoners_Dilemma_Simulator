@@ -6,10 +6,10 @@ package Strategies;
  */
 public abstract class Prisoner {
 
-    boolean EXPLOIT = true;
-    boolean COMPLY = false;
-    double score=0;
-    double cumulativeScore=0;
+    final boolean EXPLOIT = true;
+    final boolean COMPLY = false;
+    private double score=0;
+    private double cumulativeScore=0;
 
     /**
      * Gets the next decision for this prisoner.
@@ -21,7 +21,7 @@ public abstract class Prisoner {
      * Updates this prisoner's cumulative score.
      * @param result points earned during the last round of the game
      */
-    public void updateScore(double result) {
+    public final void updateScore(double result) {
         score += result;
         cumulativeScore +=result;
     }
@@ -30,7 +30,7 @@ public abstract class Prisoner {
      * Getter for prisoner score.
      * @return the cumulative score for this prisoner
      */
-    public double getScore() {
+    public final double getScore() {
         return score;
     }
 
@@ -38,7 +38,7 @@ public abstract class Prisoner {
      * Getter for cumulative score.
      * @return the cumulative score of this prisoner throughout all games
      */
-    public double getCumulativeScore() {
+    public final double getCumulativeScore() {
         return cumulativeScore;
     }
 
@@ -52,13 +52,24 @@ public abstract class Prisoner {
      * Called when the game is over so the prisoner may reset relevant information.
      */
     public void notifyGameOver() {
+    }
+
+    /**
+     * Called when a game ends to reset the game score counter
+     */
+    public final void resetGameScore() {
         score = 0;
     }
 
     /**
      * Called when the current generation has ended.
      */
-    public void notifyGenerationOver() {
+    public void notifyGenerationOver() {}
+
+    /**
+     * Called when a generation ends to reset the cumulative score.
+     */
+    public final void resetCumulativeScore() {
         cumulativeScore = 0;
     }
 

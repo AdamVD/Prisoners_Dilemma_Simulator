@@ -47,34 +47,31 @@ public class InterrogationRoom {
             if (prisoner1Choice && prisoner2Choice) {
                 prisoner1.updateScore(EXPLOIT_EXPLOIT * discountParam);
                 prisoner2.updateScore(EXPLOIT_EXPLOIT * discountParam);
-                prisoner1.notifyOpponentChoice(prisoner2Choice);
-                prisoner2.notifyOpponentChoice(prisoner1Choice);
             }
             // prisoner1 exploit, prisoner2 comply
             else if (prisoner1Choice && !prisoner2Choice) {
                 prisoner1.updateScore(EXPLOIT_COMPLY * discountParam);
                 prisoner2.updateScore(COMPLY_EXPLOIT * discountParam);
-                prisoner1.notifyOpponentChoice(prisoner2Choice);
-                prisoner2.notifyOpponentChoice(prisoner1Choice);
             }
             // prisoner1 comply, prisoner2 exploit
             else if (!prisoner1Choice && prisoner2Choice) {
                 prisoner1.updateScore(COMPLY_EXPLOIT * discountParam);
                 prisoner2.updateScore(EXPLOIT_COMPLY * discountParam);
-                prisoner1.notifyOpponentChoice(prisoner2Choice);
-                prisoner2.notifyOpponentChoice(prisoner1Choice);
             }
             // both comply
             else {
                 prisoner1.updateScore(COMPLY_COMPLY * discountParam);
                 prisoner2.updateScore(COMPLY_COMPLY * discountParam);
-                prisoner1.notifyOpponentChoice(prisoner2Choice);
-                prisoner2.notifyOpponentChoice(prisoner1Choice);
             }
+
+            prisoner1.notifyOpponentChoice(prisoner2Choice);
+            prisoner2.notifyOpponentChoice(prisoner1Choice);
 
         }
         // notifies the prisoners that the game has ended
         prisoner1.notifyGameOver();
+        prisoner1.resetGameScore();
         prisoner2.notifyGameOver();
+        prisoner2.resetGameScore();
     }
 }

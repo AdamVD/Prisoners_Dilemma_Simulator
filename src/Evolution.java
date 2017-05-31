@@ -14,7 +14,7 @@ public class Evolution {
 
     private static void beginEvolution(double weight) {
 
-        // variable initialization 
+        // variable initialization
         int generation = 1;
         Scanner s = new Scanner(System.in);
         String choice = "";
@@ -29,10 +29,8 @@ public class Evolution {
 
                 Prisoner prisoner1 = prisoners.get(i);
 
-                for (int z = 0; z < prisoners.size(); z++) {
-
-                    if (z == i)
-                        continue;
+                // count starts one after the first loop so that two players only play one another once
+                for (int z = i + 1; z < prisoners.size(); z++) {
 
                     Prisoner prisoner2 = prisoners.get(z);
 
@@ -75,8 +73,10 @@ public class Evolution {
                 prisoners.add(prisoners.get(i).evolve());
             }
 
-            for (Prisoner prisoner : prisoners)
+            for (Prisoner prisoner : prisoners) {
                 prisoner.notifyGenerationOver();
+                prisoner.resetCumulativeScore();
+            }
 
             generation++;
 

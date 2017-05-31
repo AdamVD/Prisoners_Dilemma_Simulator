@@ -32,7 +32,6 @@ public class TitForTat extends Prisoner {
      */
     @Override
     public void notifyGameOver() {
-        score = 0;
         prevOppMove = COMPLY;
     }
 
@@ -48,7 +47,7 @@ public class TitForTat extends Prisoner {
 
     @Override
     public String toString() {
-        return "Tit for Tat with cumulative score: " + cumulativeScore;
+        return "Tit for Tat with cumulative score: " + getCumulativeScore();
     }
 
 }

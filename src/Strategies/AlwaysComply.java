@@ -27,6 +27,6 @@ public class AlwaysComply extends Prisoner {
 
     @Override
     public String toString() {
-        return "Always Comply with cumulative score: " + cumulativeScore;
+        return "Always Comply with cumulative score: " + getCumulativeScore();
     }
 }
