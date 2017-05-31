@@ -1,4 +1,4 @@
-<h1>Prisoner's Dilemma Simulator</h1>
+<h1>Prisoner's Dilemma Simulator 1.0</h1>
 <h4>An evolutionary simulator for the iterative prisoner's dilemma.</h4>
 
 <p>
