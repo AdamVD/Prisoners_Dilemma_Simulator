@@ -14,7 +14,7 @@ public class Evolution {
 
     private static void beginEvolution(double weight) {
 
-        // variable initialization 
+        // variable initialization
         int generation = 1;
         Scanner s = new Scanner(System.in);
         String choice = "";
@@ -75,8 +75,10 @@ public class Evolution {
                 prisoners.add(prisoners.get(i).evolve());
             }
 
-            for (Prisoner prisoner : prisoners)
+            for (Prisoner prisoner : prisoners) {
                 prisoner.notifyGenerationOver();
+                prisoner.resetCumulativeScore();
+            }
 
             generation++;
 
