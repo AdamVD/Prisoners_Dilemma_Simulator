@@ -29,10 +29,8 @@ public class Evolution {
 
                 Prisoner prisoner1 = prisoners.get(i);
 
-                for (int z = 0; z < prisoners.size(); z++) {
-
-                    if (z == i)
-                        continue;
+                // count starts one after the first loop so that two players only play one another once
+                for (int z = i + 1; z < prisoners.size(); z++) {
 
                     Prisoner prisoner2 = prisoners.get(z);
 
