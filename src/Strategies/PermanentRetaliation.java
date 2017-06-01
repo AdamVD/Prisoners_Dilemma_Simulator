@@ -35,16 +35,6 @@ public class PermanentRetaliation extends Prisoner {
         beenExploited = false;
     }
 
-    /**
-     * Duplicate prisoner and evolve with new traits if applicable.
-     *
-     * @return new prisoner object
-     */
-    @Override
-    public Prisoner evolve() {
-        return new PermanentRetaliation();
-    }
-
     @Override
     public String toString() {
         return "Permanent Retaliation with cumulative score: " + getCumulativeScore();

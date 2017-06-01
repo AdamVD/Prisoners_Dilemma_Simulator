@@ -12,7 +12,7 @@ public class Evolution {
     private static Random r = new Random();
     private static final int MAX_ROUNDS = 9;
 
-    private static void beginEvolution(double weight) {
+    private static void beginEvolution(double weight) throws InstantiationException, IllegalAccessException {
 
         // variable initialization
         int generation = 1;
@@ -105,7 +105,14 @@ public class Evolution {
 
     public static void main(String[] args) {
         createPrisoners(Integer.parseInt(args[0]));
-        beginEvolution(Double.parseDouble(args[1]));
+        try {
+            beginEvolution(Double.parseDouble(args[1]));
+        } catch (InstantiationException e) {
+            System.out.println("Cannot evolve prisoner classes with a custom constructor!");
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
     }
 
 }

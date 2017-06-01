@@ -35,16 +35,6 @@ public class TitForTat extends Prisoner {
         prevOppMove = COMPLY;
     }
 
-    /**
-     * Duplicate prisoner and evolve with new traits if applicable.
-     *
-     * @return new prisoner object
-     */
-    @Override
-    public Prisoner evolve() {
-        return new TitForTat();
-    }
-
     @Override
     public String toString() {
         return "Tit for Tat with cumulative score: " + getCumulativeScore();

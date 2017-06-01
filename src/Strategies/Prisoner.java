@@ -77,7 +77,9 @@ public abstract class Prisoner {
      * Duplicate prisoner and evolve with new traits if applicable.
      * @return new prisoner object
      */
-    public abstract Prisoner evolve();
+    public Prisoner evolve() throws IllegalAccessException, InstantiationException {
+        return this.getClass().newInstance();
+    }
 
     @Override
     public abstract String toString();
