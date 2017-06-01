@@ -74,6 +74,13 @@ public abstract class Prisoner {
     }
 
     /**
+     * Called at the start of any game. Allows a prisoner strategy to keep a memory of who they played against.
+     * @param prisonerObjectHash unique integer hash code value of the prisoner to be used as identification
+     */
+    public void notifyOtherPrisoner(int prisonerObjectHash) {
+    }
+
+    /**
      * Duplicate prisoner and evolve with new traits if applicable.
      * @return new prisoner object
      */

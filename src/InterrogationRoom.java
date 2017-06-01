@@ -37,9 +37,15 @@ public class InterrogationRoom {
      */
     public void simulateGame() {
 
+        // gives the prisoners a unique identifier for the opponent
+        prisoner1.notifyOtherPrisoner(prisoner2.hashCode());
+        prisoner2.notifyOtherPrisoner(prisoner1.hashCode());
+
         for (int currRound = 1; currRound <= numTurns; currRound++) {
 
+            // calculates the weight to apply to the scores this round
             double discountParam = Math.pow(weight, currRound - 1);
+
             boolean prisoner1Choice = prisoner1.choose();
             boolean prisoner2Choice = prisoner2.choose();
 
@@ -64,6 +70,7 @@ public class InterrogationRoom {
                 prisoner2.updateScore(COMPLY_COMPLY * discountParam);
             }
 
+            // notifies the prisoners of their opponent's choice
             prisoner1.notifyOpponentChoice(prisoner2Choice);
             prisoner2.notifyOpponentChoice(prisoner1Choice);
 
