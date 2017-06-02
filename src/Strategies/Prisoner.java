@@ -1,5 +1,7 @@
 package Strategies;
 
+import java.text.DecimalFormat;
+
 /**
  * Class representing the structure required for a prisoner.
  * Created by avdon on 5/12/2017.
@@ -89,6 +91,9 @@ public abstract class Prisoner {
     }
 
     @Override
-    public abstract String toString();
+    public final String toString() {
+        DecimalFormat round = new DecimalFormat("#,###.##");
+        return this.getClass().getSimpleName() + " with a score of " + round.format(cumulativeScore);
+    }
 
 }

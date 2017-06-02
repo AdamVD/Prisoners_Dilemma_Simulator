@@ -14,9 +14,4 @@ public class AlwaysComply extends Prisoner {
     public boolean choose() {
         return COMPLY;
     }
-
-    @Override
-    public String toString() {
-        return "Always Comply with cumulative score: " + getCumulativeScore();
-    }
 }

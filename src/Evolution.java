@@ -96,9 +96,8 @@ public class Evolution {
     private static void createPrisoners(int numberPrisoners) {
         numPrisoners = numberPrisoners;
 
-        for (int i=1; i<=numPrisoners; i+=2) {
-            prisoners.add(new PermanentRetaliation());
-            prisoners.add(new AlwaysExploit());
+        for (int i=1; i<=numPrisoners; i+=1) {
+            prisoners.add(new AlwaysComply());
         }
 
     }

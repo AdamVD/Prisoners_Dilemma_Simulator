@@ -34,9 +34,4 @@ public class PermanentRetaliation extends Prisoner {
     public void notifyGameOver() {
         beenExploited = false;
     }
-
-    @Override
-    public String toString() {
-        return "Permanent Retaliation with cumulative score: " + getCumulativeScore();
-    }
 }
