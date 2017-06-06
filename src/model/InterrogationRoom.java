@@ -1,20 +1,16 @@
+package model;
+
 import Strategies.Prisoner;
+import model.Evolution;
 
 /**
  * Class that simulates the iterative prisoner's dilemma.
  * Created by Adam on 5/12/2017.
  */
-public class InterrogationRoom {
+class InterrogationRoom {
 
-    /** Payoff to a player that exploits while the other complies */
-    final double EXPLOIT_COMPLY = 11;
-    /** Payoff to a player that complies while the other exploits */
-    final double COMPLY_EXPLOIT = 0;
-    /** Payoff to players if they both comply */
-    final double COMPLY_COMPLY = 7;
-    /** Payoff to players if they both exploit */
-    final double EXPLOIT_EXPLOIT = 3;
-
+    /** The model.Evolution class that is managing this interrogation room */
+    Evolution evo;
     /** Weight or 'discount parameter' for successive turns */
     private final double weight;
     /** The first prisoner */
@@ -25,17 +21,18 @@ public class InterrogationRoom {
     private int numTurns;
 
     /** Create an interrogation room to play out a game between two prisoners */
-    public InterrogationRoom(int numTurns, Prisoner prisoner1, Prisoner prisoner2, double weight) {
+    InterrogationRoom(int numTurns, Prisoner prisoner1, Prisoner prisoner2, double weight, Evolution evo) {
         this.numTurns = numTurns;
         this.prisoner1 = prisoner1;
         this.prisoner2 = prisoner2;
         this.weight = weight;
+        this.evo = evo;
     }
 
     /**
      * Runs a game between the two prisoners.
      */
-    public void simulateGame() {
+     void simulateGame() {
 
         // gives the prisoners a unique identifier for the opponent
         prisoner1.notifyOtherPrisoner(prisoner2.hashCode());
@@ -51,23 +48,23 @@ public class InterrogationRoom {
 
             // both prisoners exploit
             if (prisoner1Choice && prisoner2Choice) {
-                prisoner1.updateScore(EXPLOIT_EXPLOIT * discountParam);
-                prisoner2.updateScore(EXPLOIT_EXPLOIT * discountParam);
+                prisoner1.updateScore(evo.EXPLOIT_EXPLOIT * discountParam);
+                prisoner2.updateScore(evo.EXPLOIT_EXPLOIT * discountParam);
             }
             // prisoner1 exploit, prisoner2 comply
             else if (prisoner1Choice && !prisoner2Choice) {
-                prisoner1.updateScore(EXPLOIT_COMPLY * discountParam);
-                prisoner2.updateScore(COMPLY_EXPLOIT * discountParam);
+                prisoner1.updateScore(evo.EXPLOIT_COMPLY * discountParam);
+                prisoner2.updateScore(evo.COMPLY_EXPLOIT * discountParam);
             }
             // prisoner1 comply, prisoner2 exploit
             else if (!prisoner1Choice && prisoner2Choice) {
-                prisoner1.updateScore(COMPLY_EXPLOIT * discountParam);
-                prisoner2.updateScore(EXPLOIT_COMPLY * discountParam);
+                prisoner1.updateScore(evo.COMPLY_EXPLOIT * discountParam);
+                prisoner2.updateScore(evo.EXPLOIT_COMPLY * discountParam);
             }
             // both comply
             else {
-                prisoner1.updateScore(COMPLY_COMPLY * discountParam);
-                prisoner2.updateScore(COMPLY_COMPLY * discountParam);
+                prisoner1.updateScore(evo.COMPLY_COMPLY * discountParam);
+                prisoner2.updateScore(evo.COMPLY_COMPLY * discountParam);
             }
 
             // notifies the prisoners of their opponent's choice
