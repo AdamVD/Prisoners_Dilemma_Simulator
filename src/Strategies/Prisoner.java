@@ -30,7 +30,7 @@ public abstract class Prisoner {
 
     /**
      * Getter for prisoner score.
-     * @return the cumulative score for this prisoner
+     * @return the score for this prisoner
      */
     public final double getScore() {
         return score;
@@ -53,8 +53,7 @@ public abstract class Prisoner {
     /**
      * Called when the game is over so the prisoner may reset relevant information.
      */
-    public void notifyGameOver() {
-    }
+    public void notifyGameOver() {}
 
     /**
      * Called when a game ends to reset the game score counter

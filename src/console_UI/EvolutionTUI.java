@@ -15,18 +15,18 @@ public class EvolutionTUI {
     /** The parameters to control the evolutionary simulator */
     final static HashMap<String, Integer> prisonerInitialization = new HashMap<>();
     static{  // add values to the map with the format ("strategy_name", integer number of this type)
-        prisonerInitialization.put("AlwaysExploit", 500);
-        prisonerInitialization.put("TitForTat", 500);
-        prisonerInitialization.put("PermanentRetaliation", 1000);
+        prisonerInitialization.put("AlwaysExploit", 600);
+        prisonerInitialization.put("TitForTat", 1000);
+        prisonerInitialization.put("PermanentRetaliation", 0);
     }
     /** Max rounds, exclusive. For constant value: maxRounds = minRounds + 1 */
     final static int maxRounds = 10;
     /** Min rounds, inclusive */
     final static int minRounds = 1;
     /** Weight to calculate score. Null if should be randomized*/
-    final static Double weight = .75;
+    final static Double weight = null;
     /** Random number generator seed for number of rounds and weight, can be null if not specified */
-    final static Integer seed = 1;
+    final static Integer seed = 3;
     /** Payoff to a player that exploits while the other complies */
     final static double EXPLOIT_COMPLY = 10;
     /** Payoff to a player that complies while the other exploits */

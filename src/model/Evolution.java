@@ -72,7 +72,7 @@ public class Evolution {
             this.randWeight = true;
         }
 
-        this.prisonerPopulations = prisonerInitialization;
+        this.prisonerPopulations = new HashMap<>();
         this.MAX_ROUNDS = maxRounds;
         this.MIN_ROUNDS = minRounds;
         this.EXPLOIT_COMPLY = exploit_comply;
@@ -82,7 +82,7 @@ public class Evolution {
 
         int cumulativePrisoners=0;
         // create the prisoner objects based on the initialization dictionary values
-        for (HashMap.Entry<String, Integer> entry : prisonerPopulations.entrySet()) {
+        for (HashMap.Entry<String, Integer> entry : prisonerInitialization.entrySet()) {
             String className = entry.getKey();
             int numToAdd = entry.getValue();
             cumulativePrisoners += numToAdd;
@@ -98,14 +98,22 @@ public class Evolution {
      * @throws ClassNotFoundException could not find the strategy class based on the string given
      * @throws NoSuchMethodException could not acquire the constructor (no default constructor given)
      */
-    private void addPrisoners(String className, int numToAdd) throws ClassNotFoundException, NoSuchMethodException,
+    void addPrisoners(String className, int numToAdd) throws ClassNotFoundException, NoSuchMethodException,
             IllegalAccessException, InvocationTargetException, InstantiationException {
 
-        Class strategy = Class.forName("Strategies." + className.trim());
-        Constructor constructor = strategy.getConstructor();
+        // cannot add prisoners in the middle of the simulation
+        if (generation == 0 && numToAdd > 0) {
+            if (prisonerPopulations.containsKey(className))
+                prisonerPopulations.replace(className, prisonerPopulations.get(className) + numToAdd);
+            else
+                prisonerPopulations.put(className, numToAdd);
 
-        for (int i=0; i<numToAdd; i++) {
-            prisoners.add((Prisoner)constructor.newInstance());
+            Class strategy = Class.forName("Strategies." + className.trim());
+            Constructor constructor = strategy.getConstructor();
+
+            for (int i = 0; i < numToAdd; i++) {
+                prisoners.add((Prisoner) constructor.newInstance());
+            }
         }
     }
 
@@ -115,7 +123,7 @@ public class Evolution {
      * @throws InstantiationException thrown when a failure occurs in the Prisoner.evolve() method
      * @throws IllegalAccessException thrown when a failure occurs in the Prisoner.evolve() method
      */
-     public void doGeneration() throws InstantiationException, IllegalAccessException {
+    public void doGeneration() throws InstantiationException, IllegalAccessException {
         // matches each prisoner against every other prisoner
         for (int i = 0; i < prisoners.size(); i++) {
 
@@ -175,7 +183,7 @@ public class Evolution {
         Scanner s = new Scanner(System.in);
         String choice = "";
 
-        System.out.println("Running evolutionary simulation with a weight of " + weight + " and " + numPrisoners + " prisoners.");
+        System.out.println("Running evolutionary simulation with a weight of " + (randWeight? "random":weight) + " and " + numPrisoners + " prisoners.");
         System.out.println("Games will have between " + MIN_ROUNDS + " and " + MAX_ROUNDS + " rounds.");
 
         System.out.println("The starting population is: " + prisonerPopulations);
@@ -193,6 +201,17 @@ public class Evolution {
 
         } while(choice.equalsIgnoreCase("N") || choice.equalsIgnoreCase("F"));
 
+    }
+
+    /**
+     * Getter for prisoner population sizes.
+     */
+    public HashMap getPopulation() {
+        return prisonerPopulations;
+    }
+
+    public ArrayList getPrisoners() {
+        return prisoners;
     }
 
 }
