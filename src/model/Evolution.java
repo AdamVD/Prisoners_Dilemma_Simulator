@@ -1,6 +1,7 @@
 package model;
 
 import Strategies.*;
+import com.sun.istack.internal.Nullable;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -56,8 +57,8 @@ public class Evolution {
      * @throws InstantiationException from addPrisoners()
      * @throws InvocationTargetException from addPrisoners()
      */
-    public Evolution(HashMap<String, Integer> prisonerInitialization, int maxRounds, int minRounds, Integer randSeed,
-                     Double weight, double exploit_comply, double comply_exploit, double comply_comply, double exploit_exploit)
+    public Evolution(HashMap<String, Integer> prisonerInitialization, int maxRounds, int minRounds, @Nullable Integer randSeed,
+                     @Nullable Double weight, double exploit_comply, double comply_exploit, double comply_comply, double exploit_exploit)
             throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InstantiationException, InvocationTargetException {
 
         if (randSeed != null)
@@ -165,8 +166,9 @@ public class Evolution {
         for (Prisoner prisoner : prisoners) {
             prisoner.notifyGenerationOver();
             prisoner.resetCumulativeScore();
-            prisonerPopulations.replace(prisoner.getClass().getSimpleName(),
-                                prisonerPopulations.get(prisoner.getClass().getSimpleName()) + 1);
+
+            String className = prisoner.getClass().getSimpleName();
+            prisonerPopulations.replace(className, prisonerPopulations.get(className) + 1);
         }
 
         generation++;
@@ -210,6 +212,9 @@ public class Evolution {
         return prisonerPopulations;
     }
 
+    /**
+     * Getter for the prisoner data array.
+     */
     public ArrayList getPrisoners() {
         return prisoners;
     }

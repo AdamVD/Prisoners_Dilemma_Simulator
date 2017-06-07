@@ -16,8 +16,9 @@ public class EvolutionTUI {
     final static HashMap<String, Integer> prisonerInitialization = new HashMap<>();
     static{  // add values to the map with the format ("strategy_name", integer number of this type)
         prisonerInitialization.put("AlwaysExploit", 600);
-        prisonerInitialization.put("TitForTat", 1000);
-        prisonerInitialization.put("PermanentRetaliation", 0);
+        prisonerInitialization.put("AlwaysExploit", 500);  // only the second entry persists into the simulation
+        prisonerInitialization.put("TitForTat", 950);
+        prisonerInitialization.put("PermanentRetaliation", 0);  //zeroed entries are ignored
     }
     /** Max rounds, exclusive. For constant value: maxRounds = minRounds + 1 */
     final static int maxRounds = 10;
@@ -26,7 +27,7 @@ public class EvolutionTUI {
     /** Weight to calculate score. Null if should be randomized*/
     final static Double weight = null;
     /** Random number generator seed for number of rounds and weight, can be null if not specified */
-    final static Integer seed = 3;
+    final static Integer seed = null;
     /** Payoff to a player that exploits while the other complies */
     final static double EXPLOIT_COMPLY = 10;
     /** Payoff to a player that complies while the other exploits */

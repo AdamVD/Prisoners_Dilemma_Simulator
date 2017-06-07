@@ -1,14 +1,12 @@
 package model;
 
-import Strategies.AlwaysComply;
-import Strategies.AlwaysExploit;
-import Strategies.Prisoner;
+import Strategies.*;
 import junit.framework.TestCase;
 import org.junit.Before;
 
 import java.util.HashMap;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotEquals;
 
 /**
  * Class for testing of the simulation program.
@@ -29,6 +27,9 @@ public class EvoTests extends TestCase {
         prisoner2 = new AlwaysComply();
     }
 
+    /**
+     * Tests various prisoner's dilemma game scenarios for proper score results.
+     */
     public void testInterrogationRoom() {
         InterrogationRoom room = new InterrogationRoom(4, prisoner1, prisoner2, 1., evo);
 
@@ -61,6 +62,9 @@ public class EvoTests extends TestCase {
         assertEquals("AlwaysComply, 1 round, weight .75", 0., prisoner2.getCumulativeScore());
     }
 
+    /**
+     * General testing of all relevant prisoner methods.
+     */
     public void testPrisonerMethods() throws Exception {
         assertFalse("AlwaysComply choose()", prisoner1.choose());
 
@@ -81,15 +85,94 @@ public class EvoTests extends TestCase {
         assertEquals("Prisoner toString", "AlwaysComply with a score of 110", prisoner1.toString());
     }
 
+    /**
+     * Attempts prisoner creation directly through the Evolution.addPrisoners() method.
+     */
     public void testAddPrisonerByClassNames() throws Exception {
         assertEquals("Population initially empty", evo.getPopulation(), new HashMap());
 
         evo.addPrisoners("AlwaysComply", 5);
-        evo.addPrisoners("AlwaysComply", 10);
+        evo.addPrisoners("AlwaysComply", 10);  // this second entry adds on to the first
         evo.addPrisoners("AlwaysExploit", 15);
-        assertEquals("Population hash size", 2, evo.getPopulation().size());
+        assertEquals("Population hash map size", 2, evo.getPopulation().size());
         assertEquals("AlwaysComply size", 15, evo.getPopulation().get("AlwaysComply"));
         assertEquals("AlwaysExploit size", 15, evo.getPopulation().get("AlwaysExploit"));
         assertEquals("Prisoner list size", 30, evo.getPrisoners().size());
+    }
+
+    /**
+     * Attempts prisoner creation through the hashMap parameter of the Evolution constructor.
+     */
+    public void testAddPrisonerByConstructorHash() throws Exception {
+        HashMap<String, Integer> popInit = new HashMap<>();
+        popInit.put("AlwaysComply", 5);
+        popInit.put("AlwaysComply", 10);  // only the last entry is kept
+        popInit.put("AlwaysExploit", 15);
+
+        evo = new Evolution(popInit, 5, 4, 1, 1.,
+                10, 0, 7, 3);
+
+        assertEquals("Population hash map size", 2, evo.getPopulation().size());
+        assertEquals("AlwaysComply size", 10, evo.getPopulation().get("AlwaysComply"));
+        assertEquals("AlwaysExploit size", 15, evo.getPopulation().get("AlwaysExploit"));
+        assertEquals("Prisoner list size", 25, evo.getPrisoners().size());
+    }
+
+    /**
+     * Tests trying to addPrisoners() with a strategy name that does not exist.
+     */
+    public void testNonexistentPrisonerName() throws Exception {
+        try {
+            evo.addPrisoners("DoesNotExist", 45);
+            assertTrue("Should throw ClassNotFound exception", false);
+        } catch(ClassNotFoundException e) {
+            assertTrue(true);
+        }
+    }
+
+    /**
+     * Tries to initialize an invalid prisoner with no default constructor from the addPrisoners() method.
+     */
+    public void testInitializePrisonerWithNoDefault() throws Exception {
+        try {
+            evo.addPrisoners("NoDefaultConstructor", 5);
+            assertTrue("Should throw NoSuchMethod exception", false);
+        } catch(NoSuchMethodException e) {
+            assertTrue(true);
+        }
+    }
+
+    /**
+     * Initializes a valid prisoner with multiple constructors from the addPrisoners() method.
+     * @throws Exception test has failed if exception thrown
+     */
+    public void testInitializePrisonerWithMultipleConstructor() throws Exception {
+        evo.addPrisoners("MultipleConstructor", 5);
+    }
+
+    /**
+     * Tries to evolve a prisoner that does not contain a default constructor or override evolve().
+     */
+    public void testEvolvePrisonerWithNoDefault() throws Exception {
+        try {
+            prisoner1 = new NoDefaultConstructor(true);
+            prisoner1.evolve();
+            assertTrue("Should throw InstantiationException", false);
+        } catch (InstantiationException e) {
+            assertTrue(true);
+        }
+    }
+
+    /**
+     * Calls a correctly implemented prisoner with multiple constructors (one default, one parametrized).
+     * Upon evolution the new prisoner's choice should be false (initial prisoner was true).
+     * @throws Exception test has failed if exception thrown
+     */
+    public void testEvolvePrisonerWithMultipleConstructor() throws Exception {
+        prisoner1 = new MultipleConstructor();
+        assertTrue(prisoner1.choose());
+
+        prisoner2 = prisoner1.evolve();
+        assertFalse(prisoner2.choose());
     }
 }
